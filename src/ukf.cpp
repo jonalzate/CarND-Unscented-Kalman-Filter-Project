@@ -109,6 +109,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package)
       		// Init timestamp
       		time_us_ = meas_package.timestamp_;
 
+					//===================== Laser Init ==========================
       		if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_)
       		{
 
@@ -116,6 +117,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package)
         		x_(1) = meas_package.raw_measurements_(1);
 
       		}
+      		//===================== Radar Init ==========================
       		else if (meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_)
       		{
         		// Convert radar from polar to cartesian coordinates and initialize state.
@@ -132,14 +134,13 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package)
       		return;
       }
 
-			//=========================== Prediction ===============================
+      //=========================== Prediction ===============================
 
     	//compute the time elapsed between the current and previous measurements
     	float dt = (meas_package.timestamp_ - time_us_) / 1000000.0;	// expressed in seconds
     	time_us_ = meas_package.timestamp_;
 
     	Prediction(dt);
-
 
     	//=========================== Update ===================================
 
